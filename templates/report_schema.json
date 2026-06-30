@@ -1,0 +1,80 @@
+{
+  "_about": "rare-disease-epi 可视化报告的数据契约。scripts/build_report.py / build_report_docx.py 读取本结构 -> 自包含 HTML / 可编辑 .docx。",
+  "_badge_keys": "每个 badge 可为单个字符串或数组。可选值：official(🏛️官方·仅官方登记数) | db(✅库) | guideline(📘指南/共识) | web(🔍web·附PMID/URL) | weak(⚠️) | redflag(🔴必核) | na(❓N/A)。中国侧/死亡率/外推值即使来自官方/指南也要叠 redflag，例：[\"guideline\",\"redflag\"]。",
+  "_rule": "查不到 -> na；绝不编造。中国侧每条默认带 redflag。每个 epi 数字尽量给 year + sample_size + patient_type 三列。绝不把多个数字取平均；要给代表值必标 redflag。末尾 checklist 必填且收齐所有 red/weak/na。",
+  "meta": {
+    "disease": "病名（必填，如 Spinal muscular atrophy / 脊髓性肌萎缩症）",
+    "orphacode": "ORPHA:83330",
+    "omim": "253300",
+    "icd10": "G12.0",
+    "icd11": "8B61.0",
+    "gard": "7883",
+    "mode": "查的 metric / 国家 / 是否分亚型（如：患病率+发病率+携带频率 · 国际+美+中 · 分亚型）",
+    "consensus_anchor": "本次采用的官方指南/共识（📘）或 '未找到官方指南'",
+    "generated": "YYYY-MM-DD",
+    "script_cmd": "fetch_epi_data.py \"<病名>\" --orphacode <code>",
+    "skipped_gates": "true=用户选了'一次跑完'，报告顶部会显示未确认横幅",
+    "footer": "页脚一句话（可选）"
+  },
+  "identity": [
+    { "field": "病名 / INN", "value": "Spinal muscular atrophy / 脊髓性肌萎缩症", "badge": ["db"] },
+    { "field": "ORPHAcode", "value": "ORPHA:83330（type 1，亚型条目）", "badge": "db" },
+    { "field": "OMIM / ICD-10 / ICD-11", "value": "253300 / G12.0 / 8B61.0", "badge": "db" },
+    { "field": "遗传方式", "value": "常染色体隐性（SMN1 双等位致病变异）", "badge": ["db", "guideline"] },
+    { "field": "携带频率", "value": "❓N/A 见亚型矩阵（携带频率与临床患病率分列）", "badge": "na" }
+  ],
+  "consensus_anchor": [
+    { "label": "病例定义/诊断标准", "text": "指南口径（最高权威）：基因确诊…", "badge": ["guideline", "official"] },
+    { "label": "亚型分类（喂给亚型拆分）", "text": "按起病年龄 + SMN2 拷贝数分 1/2/3/4 型…", "badge": "guideline" }
+  ],
+  "subtype_matrix": {
+    "columns": ["亚型", "国际/全球", "美国", "中国"],
+    "note": "携带频率 vs 临床患病率必须分列、绝不混算；外推值标 🔴。",
+    "rows": [
+      {
+        "subtype": "SMA type 1（婴儿型）",
+        "cells": [
+          { "value": "≈60% of 1/10,000 birth prev", "kind": "临床(出生患病率)", "badge": ["db"] },
+          { "value": "…", "kind": "临床", "badge": "web" },
+          { "value": "🔴 副驾归一化", "kind": "临床", "badge": ["web", "redflag"] }
+        ]
+      }
+    ]
+  },
+  "epi_tables": [
+    {
+      "title": "国际 / 全球 epi",
+      "rows": [
+        {
+          "year": "采集 — / 发表 2026",
+          "sample_size": "Meta，204 国/地区",
+          "patient_type": "全人群、基因确诊",
+          "metric": "出生患病率",
+          "value": "≈1/10,000",
+          "geo_level": "全球 meta",
+          "denominator": "per live births",
+          "case_definition": "SMN1 双等位缺失（指南口径）",
+          "study_design": "系统综述/meta",
+          "source": { "label": "Orphanet / PMID 42102620", "url": "https://pubmed.ncbi.nlm.nih.gov/42102620/", "badge": ["db"] }
+        }
+      ],
+      "conflict_note": "数字差异主要来自年份/样本/患者类型（前三列）：……。不取平均；各口径适用场景：……。"
+    }
+  ],
+  "timeline": [
+    { "year": "2021", "value": "1/10,000", "label": "出生患病率 meta", "sample": "N=…", "geo": "全球", "badge": "web" },
+    { "year": "2026", "value": "x/100,000", "label": "全球患病率 204 国", "sample": "meta", "geo": "全球", "badge": ["db"] }
+  ],
+  "mortality": [
+    { "label": "国际", "text": "整项 🔴：罕见病死亡登记普遍不全…", "badge": ["web", "redflag"] }
+  ],
+  "checklist": [
+    { "field": "中国 患病率/发病率", "value": "副驾归一化", "badge": "redflag", "why": "无开放API、样本口径不透明", "where": "知网原文 / 卫健委指南引文 / 患者组织白皮书原始研究" },
+    { "field": "携带频率→患病率换算", "value": "外推值", "badge": "redflag", "why": "非实测、依赖外显率假设", "where": "原始建模 + 新生儿筛查实测" }
+  ],
+  "references": [
+    { "label": "Orphanet 疾病页 (ORPHA:83330)", "url": "https://www.orpha.net/en/disease/detail/83330", "badge": "db" },
+    { "label": "Global Prevalence of SMA (PMID 42102620)", "url": "https://pubmed.ncbi.nlm.nih.gov/42102620/", "badge": "web" }
+  ],
+  "_references_note": "全文所有 source 链接统一收进 references[]，渲染为报告最后一个 section（编号 + 可点击 + 徽标）。"
+}

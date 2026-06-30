@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>rare-disease-epi · 可视化报告设计参考</title>
+<!--
+  这是 scripts/build_report.py 的【配色 / 组件设计参考】，不是运行时输入。
+  运行时真正的输入是 templates/report_schema.json，由 build_report.py 渲染成自包含 HTML。
+  本文件只用来固定七档徽标的颜色、章节骨架与口径，方便二次定制时对齐。
+-->
+<style>
+  :root{
+    /* muted dark-blue / slate family (low contrast); redflag = desaturated clay */
+    --official:#2b4a6f; --db:#35637a; --guide:#4a5a82; --web:#5c748e;
+    --weak:#8a7b5e; --red:#9d4b4b; --na:#94a3b8;
+  }
+  body{font-family:ui-sans-serif,"PingFang SC","Microsoft YaHei",system-ui,sans-serif; color:#1f2937; background:#f8fafc; max-width:920px; margin:0 auto; padding:24px;}
+  .chip{display:inline-block; font-size:11px; font-weight:700; color:#fff; padding:2px 8px; border-radius:999px; margin:2px;}
+  .b-official{background:var(--official);} .b-db{background:var(--db);} .b-guide{background:var(--guide);}
+  .b-web{background:var(--web);} .b-weak{background:var(--weak);} .b-red{background:var(--red);} .b-na{background:var(--na);}
+  .card{background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:18px 22px; margin-bottom:16px;}
+  h2{font-size:16px; border-left:4px solid #94a3b8; padding-left:10px;}
+  table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  th,td{border:1px solid #e5e7eb; padding:7px 9px; text-align:left; vertical-align:top;}
+  th:nth-child(-n+3){border-bottom:2px solid #2b4a6f;}
+  .checklist{border:1.5px solid #d2c0c0; background:#faf7f7;}
+  .checklist h2{border-left-color:#9d4b4b; color:#7a4242;}
+</style></head>
+<body>
+
+<div class="card">
+  <h2>七档徽标配色（与 build_report.py / build_report_docx.py 一致）</h2>
+  <span class="chip b-official">🏛️官方</span>
+  <span class="chip b-db">✅库</span>
+  <span class="chip b-guide">📘指南</span>
+  <span class="chip b-web">🔍web</span>
+  <span class="chip b-weak">⚠️存疑</span>
+  <span class="chip b-red">🔴必核</span>
+  <span class="chip b-na">❓N/A</span>
+  <p style="color:#6b7280;font-size:12px">可信度：🏛️官方 ＝ ✅库 ＝ 📘指南 ＞ 🔍web ＞ ⚠️ ＞ ❓N/A。🔴 可叠加在任何来源上。</p>
+</div>
+
+<div class="card"><h2>章节骨架</h2>
+  <ol style="color:#475569;font-size:13px">
+    <li>顶部身份卡 + 免责条 + <b>共识锚点 📘</b></li>
+    <li>亚型矩阵（<b>携带频率 vs 临床患病率分列</b>）</li>
+    <li>各国 epi 对比表（<b>10 列；年份/样本量/患者类型为前三列</b>）+ 冲突解读（<b>不取平均</b>）</li>
+    <li>估计值随年份时间线（每点标样本量 + 徽标）</li>
+    <li>死亡率（整项 🔴）</li>
+    <li><b>🔴 需人工核对清单（最关键产出）</b></li>
+    <li>参考来源（PMID/URL 统一收口）</li>
+  </ol>
+</div>
+
+<div class="card"><h2>epi 对比表骨架（10 列）</h2>
+  <table>
+    <thead><tr>
+      <th>年份(采集/发表)</th><th>样本量/base</th><th>患者类型/纳入</th>
+      <th>metric</th><th>数值+CI</th><th>地理</th><th>分母</th><th>病例定义</th><th>设计</th><th>来源+徽标</th>
+    </tr></thead>
+    <tbody><tr>
+      <td>采集2015–18/发表2021</td><td>N=… / 覆盖…</td><td>全人群·基因确诊</td>
+      <td>出生患病率</td><td>1/10,000 (95%CI…)</td><td>全国</td><td>per live births</td>
+      <td>SMN1 双等位缺失（指南口径）</td><td>新生儿筛查</td><td>PMID… <span class="chip b-web">🔍web</span></td>
+    </tr></tbody>
+  </table>
+</div>
+
+<div class="card checklist"><h2>🔴 需人工核对清单</h2>
+  <table>
+    <thead><tr><th>#</th><th>字段</th><th>当前值</th><th>为什么要核</th><th>去哪核</th></tr></thead>
+    <tbody><tr><td>1</td><td>中国 患病率</td><td>副驾归一化 <span class="chip b-red">🔴</span></td><td>无开放API/口径不透明</td><td>知网/卫健委指南引文</td></tr></tbody>
+  </table>
+</div>
+
+</body></html>

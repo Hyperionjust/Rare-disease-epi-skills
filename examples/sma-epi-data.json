@@ -1,0 +1,185 @@
+{
+  "_note": "SMA 端到端 demo 的可视化报告输入。所有数字均来自真实可核来源（Orphanet / PubMed PMID）。中国侧、死亡率、外推值均叠 🔴。",
+  "meta": {
+    "disease": "Spinal muscular atrophy / 脊髓性肌萎缩症（5q-SMA, proximal）",
+    "orphacode": "ORPHA:70（group）· 亚型 83330/83418/83419/83420",
+    "omim": "253300 / 253400 / 253550 / 271150",
+    "icd10": "G12.0, G12.1",
+    "icd11": "8B61.Y",
+    "gard": "4531",
+    "mode": "患病率 + 发病率 + 携带频率 · 国际 + 美国 + 中国 · 分亚型（1/2/3/4）",
+    "consensus_anchor": "📘 2018 SMA 标准照护共识(PMID 29290580/29305137) + 2024 ERN CPG(PMID 38878702) + GeneReviews NBK1352；中国：卫健委《罕见病诊疗指南(2019)》（SMA 属第一批目录）",
+    "generated": "2026-06-30",
+    "script_cmd": "fetch_epi_data.py \"Spinal muscular atrophy\" --orphacode 83330 --max-studies 150",
+    "skipped_gates": true,
+    "footer": "rare-disease-epi · SMA 端到端样例 · 仅供研究情报参考，非医疗建议 · 标 🔴 项请溯原始研究复核。"
+  },
+  "identity": [
+    { "field": "病名 / 别名", "value": "Spinal muscular atrophy（5q-SMA, proximal）/ 脊髓性肌萎缩症 / SMA / Werdnig-Hoffmann(1型)", "badge": "db" },
+    { "field": "ORPHAcode", "value": "ORPHA:70（group「Proximal SMA」）；亚型 83330(1型)/83418(2型)/83419(3型)/83420(4型)", "badge": "db" },
+    { "field": "OMIM / ICD-10 / ICD-11", "value": "253300/253400/253550/271150 · G12.0,G12.1 · 8B61.Y", "badge": "db" },
+    { "field": "GARD / 遗传方式", "value": "GARD 4531 · 常染色体隐性（SMN1 双等位致病变异，>95% 为纯合缺失）", "badge": ["db", "guideline"] },
+    { "field": "致病/修饰基因", "value": "SMN1（致病）；SMN2 拷贝数与严重度负相关（决定分型）", "badge": ["db", "guideline"] },
+    { "field": "Orphanet 维护", "value": "Last update 2026-02，Pr J. Kirschner / EURO-NMD（来源 PMID 34706022/37337091/25346245）", "badge": "db" }
+  ],
+  "consensus_anchor": [
+    { "label": "病例定义/诊断标准（指南口径·最高权威）", "text": "基因确诊：检出 SMN1 双等位致病变异（多为外显子7纯合缺失）；并测定 SMN2 拷贝数（预测严重度、指导治疗）。不依赖肌活检/肌电图。", "badge": ["guideline", "official"] },
+    { "label": "亚型分类（直接喂给亚型拆分 G2）", "text": "按起病年龄 + 严重度分 4 型：SMA1（<6月，多 2 个 SMN2 拷贝）、SMA2（6–18月）、SMA3（>18月）、SMA4（成人，常 ≥4 拷贝）。注：DMT 时代该分型对'临床轨迹'的描述力下降。", "badge": "guideline" },
+    { "label": "中国官方指南", "text": "SMA 属国家第一批罕见病目录；卫健委《罕见病诊疗指南(2019)》含 SMA 专章（📘可叠🏛️官方；建议核对目录编号与版本）。", "badge": ["guideline", "redflag"] }
+  ],
+  "subtype_matrix": {
+    "columns": ["分型 / 指标", "国际 / 全球", "美国", "中国"],
+    "note": "上半为『携带频率』（人群携带者比例，≠ 患病率），下半为『临床（出生患病率/占比）』。两者绝不混算；由携带频率推算患病率属外推 🔴。",
+    "rows": [
+      {
+        "subtype": "携带频率（全人群，非患病率）",
+        "cells": [
+          { "value": "≈1/50–1/60", "kind": "携带频率·综述汇总", "badge": ["web"] },
+          { "value": "1/54（先验，检出率91.2%）", "kind": "携带频率·N>72,400", "badge": ["web"] },
+          { "value": "1/56 ｜ 1/73.8(泛族裔)", "kind": "携带频率·见中国表", "badge": ["web", "redflag"] }
+        ]
+      },
+      {
+        "subtype": "全部型 临床出生患病率",
+        "cells": [
+          { "value": "≈1/10,000 活产", "kind": "临床·Orphanet curated", "badge": ["db", "guideline"] },
+          { "value": "≈1/11,000（发病率，外推）", "kind": "临床·外推", "badge": ["web", "redflag"] },
+          { "value": "❓N/A 直接大陆数据稀缺", "kind": "临床", "badge": ["na", "redflag"] }
+        ]
+      },
+      {
+        "subtype": "SMA1（婴儿型，<6月）",
+        "cells": [
+          { "value": "≈60% of 全部型", "kind": "临床·占比", "badge": ["db"] },
+          { "value": "随队列", "kind": "临床", "badge": "weak" },
+          { "value": "🔴 副驾归一化", "kind": "临床", "badge": ["redflag"] }
+        ]
+      },
+      {
+        "subtype": "SMA2 / SMA3 / SMA4",
+        "cells": [
+          { "value": "占比随研究变动（见 Verhaart 2017）", "kind": "临床·综述", "badge": ["web", "weak"] },
+          { "value": "❓N/A 分型实测稀", "kind": "临床", "badge": "na" },
+          { "value": "❓N/A", "kind": "临床", "badge": ["na", "redflag"] }
+        ]
+      }
+    ]
+  },
+  "epi_tables": [
+    {
+      "title": "① 国际 / 全球 epi（出生患病率 / 发病率）",
+      "rows": [
+        {
+          "year": "发表 2026-02（持续维护）", "sample_size": "Orphanet curated（专家维护）",
+          "patient_type": "全人群·基因确诊·全部型", "metric": "出生患病率(birth prevalence)",
+          "value": "≈1/10,000", "geo_level": "国际（Orphanet 口径）", "denominator": "per live births",
+          "case_definition": "SMN1 双等位变异（指南口径）", "study_design": "curated 估计",
+          "source": { "label": "Orphanet ORPHA:70", "url": "https://www.orpha.net/en/disease/detail/70", "badge": ["db", "guideline"] }
+        },
+        {
+          "year": "发表 2017", "sample_size": "系统综述（汇总多国研究）",
+          "patient_type": "全人群·5q-SMA", "metric": "发病率(incidence) / 携带频率",
+          "value": "发病率 ≈1/10,000 量级（跨研究区间大）；携带频率 ≈1/50–1/60", "geo_level": "多国汇总",
+          "denominator": "per live births / 人群", "case_definition": "5q-SMA（SMN1）",
+          "study_design": "文献系统综述", "source": { "label": "Verhaart 2017, Orphanet J Rare Dis (PMID 28676062)", "url": "https://pubmed.ncbi.nlm.nih.gov/28676062/", "badge": "web" }
+        },
+        {
+          "year": "发表 2026", "sample_size": "Meta，204 国/地区",
+          "patient_type": "全人群", "metric": "全球患病率(point prevalence)",
+          "value": "见原文（按国别）", "geo_level": "全球 meta", "denominator": "per population",
+          "case_definition": "诊断 SMA", "study_design": "系统综述/meta",
+          "source": { "label": "Global Prevalence of SMA, Pediatr Neurol 2026 (PMID 42102620)", "url": "https://pubmed.ncbi.nlm.nih.gov/42102620/", "badge": "web" }
+        }
+      ],
+      "conflict_note": "三行口径不同、绝不合并：第1行是 Orphanet『出生患病率』（活产为分母），第2行是综述里的『发病率/携带频率』（注意携带频率是人群携带者比例，≠ 患病率），第3行是『时点患病率』（现存患者/总人口，受生存期与 DMT 影响）。出生患病率↔时点患病率↔携带频率三者本就不可直接比；DMT 延长生存会抬高时点患病率而不改出生患病率。用途：出生患病率/发病率用于新生儿筛查与新发负担测算；时点患病率用于现存患者数与医疗资源测算。"
+    },
+    {
+      "title": "② 美国 epi",
+      "rows": [
+        {
+          "year": "采集—/发表 2012", "sample_size": "N>72,400 例（携带筛查 72,453）",
+          "patient_type": "泛族裔送检人群（非全人群随机）", "metric": "携带频率(carrier frequency)",
+          "value": "先验 1/54（检出率 91.2%；族裔差异大）", "geo_level": "美国（多族裔）",
+          "denominator": "per 携带者", "case_definition": "SMN1 拷贝数检测",
+          "study_design": "临床实验室大样本筛查", "source": { "label": "Sugarman 2012, Eur J Hum Genet (PMID 21811307)", "url": "https://pubmed.ncbi.nlm.nih.gov/21811307/", "badge": "web" }
+        },
+        {
+          "year": "综述/指南引", "sample_size": "由携带频率与检出率推算",
+          "patient_type": "全人群·全部型", "metric": "发病率(incidence, 外推)",
+          "value": "≈1/11,000 活产（外推，新生儿筛查实测常更低 1/15,000–1/17,000）", "geo_level": "美国",
+          "denominator": "per live births", "case_definition": "SMN1 双等位",
+          "study_design": "由携带频率外推 / NBS 实测", "source": { "label": "GeneReviews NBK1352 / Verhaart 2017", "url": "https://www.ncbi.nlm.nih.gov/books/NBK1352/", "badge": ["guideline", "redflag"] }
+        }
+      ],
+      "conflict_note": "1/54 是『携带频率』（每 54 人有 1 携带者），1/11,000 是『发病率』（每 11,000 活产 1 患儿）——两者经哈迪-温伯格×检出率换算关联，但口径完全不同，绝不并列当『患病率』。外推发病率（🔴）与新生儿筛查实测发病率常有差距（筛查实测多为 1/15,000–1/17,000），差异来自检出率、SMN1 非缺失变异漏检、人群构成。"
+    },
+    {
+      "title": "③ 中国 epi（🔴 全程 · 副驾归一化 · 无开放 API）",
+      "rows": [
+        {
+          "year": "发表 2020-06", "sample_size": "13,069 孕妇（231 携带）",
+          "patient_type": "育龄孕妇（非全人群）", "metric": "携带频率",
+          "value": "≈1.77% → 1/56（95%CI 1.56–2.01%）", "geo_level": "中国（单中心/区域）",
+          "denominator": "per 携带者", "case_definition": "SMN1 ex7 qPCR+MLPA",
+          "study_design": "横断面携带筛查", "source": { "label": "13,069 Chinese pregnant women, J Mol Diagn 2020 (PMID 32205292)", "url": "https://pubmed.ncbi.nlm.nih.gov/32205292/", "badge": ["web", "redflag"] }
+        },
+        {
+          "year": "发表 2020", "sample_size": "10,585 对夫妇（泛族裔）",
+          "patient_type": "备孕/产前夫妇", "metric": "携带频率",
+          "value": "总体 1/73.8（1.4%）；族裔差异大（傣族最高 4.3%）", "geo_level": "中国（多族裔）",
+          "denominator": "per 携带者", "case_definition": "NGS 携带筛查",
+          "study_design": "横断面 NGS 筛查", "source": { "label": "NGS pan-ethnic 10,585 couples, Eur J Hum Genet 2020", "url": "https://www.nature.com/articles/s41431-020-00714-8", "badge": ["web", "redflag"] }
+        },
+        {
+          "year": "发表 2024-01", "sample_size": "22,913 育龄女性",
+          "patient_type": "育龄女性", "metric": "携带频率",
+          "value": "见原文（与上两项同量级）", "geo_level": "中国（区域）",
+          "denominator": "per 携带者", "case_definition": "SMN1 携带筛查",
+          "study_design": "横断面携带筛查", "source": { "label": "Zhang 2024, 22,913 Chinese women, Mol Genet Genomic Med (PMID 38284446)", "url": "https://pubmed.ncbi.nlm.nih.gov/38284446/", "badge": ["web", "redflag"] }
+        },
+        {
+          "year": "—", "sample_size": "—", "patient_type": "全人群（大陆）",
+          "metric": "临床出生患病率/发病率", "value": "❓N/A — 大陆全国性直接实测稀缺（多以携带频率外推或引台湾 NBS 1/17,181）",
+          "geo_level": "中国大陆（全国）", "denominator": "per live births",
+          "case_definition": "—", "study_design": "—",
+          "source": { "label": "副驾：知网/卫健委指南引文/患者组织白皮书（无开放API）", "url": "http://www.nhc.gov.cn/", "badge": ["na", "redflag"] }
+        }
+      ],
+      "conflict_note": "三项中国携带频率（1/56、1/73.8、Zhang 2024）差异主要来自：① 样本（孕妇 vs 备孕夫妇 vs 育龄女性，均非全人群随机）；② 地域与族裔构成（泛族裔 1/73.8 偏低，因纳入低携带族裔；傣族高达 4.3%）；③ 方法（qPCR+MLPA vs NGS，对 SMN1 非缺失变异检出不同）。**绝不取平均**。关键提醒：携带频率 ≠ 患病率；中国大陆缺乏全国性临床出生患病率直接实测（❓N/A），现有'中国患病率'多为由携带频率外推（🔴）或借用台湾新生儿筛查数据。所有中国侧数字默认 🔴，须溯原文与样本口径。"
+    }
+  ],
+  "timeline": [
+    { "year": "2012", "value": "1/54", "label": "美国 携带频率(Sugarman)", "sample": "N>72,400", "geo": "美国", "badge": "web" },
+    { "year": "2017", "value": "≈1/10,000", "label": "出生患病率 综述(Verhaart)", "sample": "多国汇总", "geo": "国际", "badge": "web" },
+    { "year": "2020", "value": "1/56", "label": "中国 携带频率(13,069孕妇)", "sample": "N=13,069", "geo": "中国", "badge": ["web", "redflag"] },
+    { "year": "2020", "value": "1/73.8", "label": "中国 携带频率(泛族裔NGS)", "sample": "10,585对", "geo": "中国", "badge": ["web", "redflag"] },
+    { "year": "2024", "value": "携带筛查", "label": "中国 22,913 育龄女性", "sample": "N=22,913", "geo": "中国", "badge": ["web", "redflag"] },
+    { "year": "2026", "value": "≈1/10,000", "label": "Orphanet 维护更新", "sample": "curated", "geo": "国际", "badge": ["db", "guideline"] }
+  ],
+  "mortality": [
+    { "label": "国际（整项 🔴）", "text": "DMT 前 SMA1 自然史预后差（多数 <2 岁死亡或需长期通气）；但罕见病死亡登记普遍不全、漏报，且新生儿筛查 + 疾病修饰治疗后生存显著改变——任何具体死亡率数字须附年份/队列/治疗背景，且默认 🔴。来源：Orphanet prognosis 段（描述性，非死亡率数字）。", "badge": ["web", "redflag"] }
+  ],
+  "checklist": [
+    { "field": "中国 携带频率（3 项）", "value": "1/56 ｜ 1/73.8 ｜ Zhang2024", "badge": ["web", "redflag"], "why": "样本均非全人群、方法/族裔差异大、无开放API；不可平均、不可当患病率", "where": "PMID 32205292 / EJHG 2020 / PMID 38284446 原文样本口径" },
+    { "field": "中国 临床出生患病率/发病率", "value": "❓N/A（大陆直接实测稀缺）", "badge": ["na", "redflag"], "why": "大陆缺全国性实测，现有多为外推或借台湾数据", "where": "知网检索 + 卫健委《罕见病诊疗指南2019》引文 + 患者组织白皮书原始研究" },
+    { "field": "美国 发病率 ≈1/11,000", "value": "外推值", "badge": ["redflag"], "why": "由携带频率×检出率换算，非实测；NBS 实测常 1/15,000–1/17,000", "where": "GeneReviews NBK1352 + 各州 NBS 项目实测" },
+    { "field": "携带频率→患病率换算", "value": "全表多处", "badge": ["redflag"], "why": "携带频率≠患病率；换算依赖外显率/检出率假设", "where": "原始建模假设 + 新生儿筛查实测发病率" },
+    { "field": "SMA2/3/4 分型占比", "value": "随研究变动", "badge": ["weak"], "why": "仅 type1≈60% 有 Orphanet 口径；其余分型实测稀、跨研究差异大", "where": "Verhaart 2017 综述 + 各亚型 Orphanet 条目(83418/83419/83420)" },
+    { "field": "死亡率", "value": "无干净数字", "badge": ["redflag"], "why": "罕见病死亡登记不全；DMT 后生存大变", "where": "原始自然史队列 / 国家死因监测" },
+    { "field": "中国官方指南目录条目", "value": "第一批目录 + 2019 指南", "badge": ["guideline", "redflag"], "why": "需核对目录编号与指南版本", "where": "nhc.gov.cn《罕见病目录》《罕见病诊疗指南(2019)》" }
+  ],
+  "references": [
+    { "label": "Orphanet — Proximal SMA (group, ORPHA:70)", "url": "https://www.orpha.net/en/disease/detail/70", "badge": "db" },
+    { "label": "Orphanet — SMA type 1 (ORPHA:83330)", "url": "https://www.orpha.net/en/disease/detail/83330", "badge": "db" },
+    { "label": "Verhaart 2017 — Prevalence/incidence/carrier frequency of 5q-SMA, Orphanet J Rare Dis (PMID 28676062)", "url": "https://pubmed.ncbi.nlm.nih.gov/28676062/", "badge": "web" },
+    { "label": "Sugarman 2012 — Pan-ethnic carrier screening >72,400 specimens, Eur J Hum Genet (PMID 21811307)", "url": "https://pubmed.ncbi.nlm.nih.gov/21811307/", "badge": "web" },
+    { "label": "13,069 Chinese pregnant women carrier screening, J Mol Diagn 2020 (PMID 32205292)", "url": "https://pubmed.ncbi.nlm.nih.gov/32205292/", "badge": ["web", "redflag"] },
+    { "label": "NGS pan-ethnic 10,585 couples in China, Eur J Hum Genet 2020", "url": "https://www.nature.com/articles/s41431-020-00714-8", "badge": ["web", "redflag"] },
+    { "label": "Zhang 2024 — 22,913 Chinese women carrier screening, Mol Genet Genomic Med (PMID 38284446)", "url": "https://pubmed.ncbi.nlm.nih.gov/38284446/", "badge": ["web", "redflag"] },
+    { "label": "SMA Standards of Care consensus 2018 part 1 (PMID 29290580)", "url": "https://pubmed.ncbi.nlm.nih.gov/29290580/", "badge": "guideline" },
+    { "label": "ERN SMA clinical practice guideline 2024 (PMID 38878702)", "url": "https://pubmed.ncbi.nlm.nih.gov/38878702/", "badge": "guideline" },
+    { "label": "GeneReviews — Spinal Muscular Atrophy (NBK1352)", "url": "https://www.ncbi.nlm.nih.gov/books/NBK1352/", "badge": "guideline" },
+    { "label": "Global Prevalence of SMA in 204 countries, Pediatr Neurol 2026 (PMID 42102620)", "url": "https://pubmed.ncbi.nlm.nih.gov/42102620/", "badge": "web" },
+    { "label": "国家卫健委《罕见病诊疗指南(2019)》/《罕见病目录》", "url": "http://www.nhc.gov.cn/", "badge": ["guideline", "redflag"] }
+  ]
+}
