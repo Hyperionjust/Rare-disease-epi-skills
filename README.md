@@ -1,6 +1,6 @@
 # rare-disease-epi · 罕见病流行病学情报
 
-> **当前版本：v1.2.0**（更新日志见文末 [更新日志 / Changelog](#更新日志--changelog)）
+> **当前版本：v1.2.1**（更新日志见文末 [更新日志 / Changelog](#更新日志--changelog)）
 
 一个**可移植的** Agent Skill（可在 Claude Code / Qwen Code / Kimi Code CLI / MiniMax Mini-Agent 直接用）。
 你说一句「**查一下 X 病的患病率**」，它就把这个罕见病的流行病学数据（患病率 / 发病率 / 死亡率 / 携带频率）
@@ -12,7 +12,47 @@
 
 > 仅供研究/情报参考，**非医疗建议、非诊断**。
 
-> 🔰 **第一次用、或不太懂技术？** 先看 [`GETTING_STARTED.md`](GETTING_STARTED.md)（保姆级：开联网、放行网站、四种 CLI 安装、看懂徽标、出错一键修）。
+> 🔰 **第一次用、或不太懂技术？** 先看 [`GETTING_STARTED.md`](GETTING_STARTED.md)（保姆级：开联网、放行网站、看懂徽标、出错一键修）。
+
+---
+
+## 🚀 怎么安装（不懂技术也能照着做）
+
+> 不用懂代码。看你用哪个，照对应那一段做，**3 分钟搞定**。
+
+### ① 用 Claude 桌面版 / 网页版（绝大多数人选这个）
+
+1. **拿到压缩包**。把 `rare-disease-epi` 这个文件夹整个压成一个 `rare-disease-epi.zip`：
+   - Windows：右键这个文件夹 → 「发送到」→「压缩(zipped)文件夹」。
+   - Mac：右键这个文件夹 → 「压缩」。
+   - 👉 **嫌麻烦最省事**：直接对 Claude 说「**帮我把 rare-disease-epi 打包成 zip**」，它会生成好让你下载，你跳过这步。
+2. **打开设置**：Claude → 设置（Settings）→ 找到「技能 / Skills」（有的版本在「Capabilities / 自定义 Customize」里）。
+3. **点上传**：点「上传技能 / Upload skill」，选你那个 `rare-disease-epi.zip`。
+   - 如果它**只认 `.skill` 后缀**：把文件名 `rare-disease-epi.zip` 直接改成 `rare-disease-epi.skill`（内容一模一样，只是改个名）。
+4. **完成**。回到聊天框打一句「**查一下脊髓性肌萎缩症的患病率**」就能用。
+
+### ② 用命令行工具（Claude Code / Qwen Code / Kimi Code / MiniMax）
+
+把整个 `rare-disease-epi` 文件夹**复制粘贴**到下面对应的位置就行，文件不用改任何东西：
+
+| 你用的工具 | 把文件夹放到这里 |
+|---|---|
+| **Claude Code** | `~/.claude/skills/rare-disease-epi/`（Windows：`%USERPROFILE%\.claude\skills\rare-disease-epi\`）|
+| **Qwen Code** | `~/.qwen/skills/rare-disease-epi/` |
+| **Kimi Code CLI** | `~/.kimi-code/skills/rare-disease-epi/` |
+| **MiniMax Mini-Agent** | 它的 skills 目录：`…/skills/rare-disease-epi/` |
+
+放好后**重启一下**该工具，再打「查一下 XX 病的患病率」即可。
+
+### ③ 怎么确认装好了？
+
+随便打一句「**查一下戈谢病的患病率**」。如果它开始反问你（"要查的是不是这个病？""要不要分亚型？""网站放行了吗？"），就说明**已经装好、正在工作**。
+
+> ⚠️ **装好后第一次用，它会先问你"网站放行了吗"**——这步最关键。照它说的把网站放行（**最省事＝在 设置→功能→网络访问 里把允许域名填一个 `*`**），否则会查不到、报告一片空白。详细图文见 [`GETTING_STARTED.md`](GETTING_STARTED.md) 第 1 步。
+
+> 还需要满足：电脑/环境里有 **Python 3.8 及以上**（命令行工具一般自带）。想出 Word 文档另需 `pip install python-docx`，只出文字/网页报告则不需要。
+
+---
 
 本工具直接复用了 `drug-intel` 的架构骨架：**七档来源徽标、暂停门(Pause Gates)、末尾「🔴 需人工核对清单」、
 确定性脚本优先、文字/可视化双输出**；只把"数据源 + 工作流"换成罕见病 epi，并新增一档 **📘指南/共识** 徽标。
@@ -146,6 +186,9 @@ www.clinicaltrials.gov / www.orpha.net / www.orphadata.com。Word 版 `build_rep
 ## 更新日志 / Changelog
 
 > 约定：**每次版本更新都在此记录**（最新在上）。版本号 `主.次.修`：主=不兼容改动，次=新增能力，修=修复/微调。
+
+### v1.2.1 — 2026-06-30
+- **README 新增"怎么安装"傻瓜版**：把安装步骤直接放到 README 顶部（原先只有一句"见 GETTING_STARTED"，看不出怎么装）。分两条路——桌面/网页版（打包 zip → 上传）与命令行工具（复制文件夹到对应 skills 目录，附四 harness 路径表），并给出"怎么确认装好了"与首次放行提醒。措辞做到不懂技术也能照做。
 
 ### v1.2.0 — 2026-06-30
 - **修复 PDF 整页适配**：可视化报告打印/导出 PDF 时，10 列 epi 对比表不再溢出页面右边缘。`build_report.py` 新增 `@media print` 规则：表格 `table-layout:fixed` + 列宽分配 + 自动换行 + 缩小字号，并让长表可跨页但**单行不被截断**（`break-inside:avoid`），缩小打印内边距。SMA 样例 PDF 由 9 页压缩为 6 页且无错版。
