@@ -385,13 +385,39 @@ h2{font-size:17px; font-weight:700; color:#24435f; margin:0 0 14px; padding-left
 .refs a:hover{text-decoration:underline;}
 .ref-url{font-size:11px; color:var(--muted); word-break:break-all; margin-top:1px;}
 footer{color:var(--muted); font-size:12px; text-align:center; padding:4px 0 8px;}
-@page{ size:A4; margin:12mm; }
+@page{ size:A4; margin:11mm; }
 @media print{
-  body{background:#fff; padding:0;}
-  .wrap{gap:14px; max-width:100%;}
-  .hero,.card{box-shadow:none; break-inside:avoid;}
+  html,body{background:#fff; padding:0; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  .wrap{gap:12px; max-width:100%;}
+  .hero,.card{box-shadow:none;}
+  .card{padding:14px 16px; break-inside:auto;}
+  h1{font-size:22px;} h2{font-size:15px; break-after:avoid;}
   .legend-grid{grid-template-columns:1fr 1fr;}
-  .checklist{break-inside:avoid;}
+  /* keep the wide 10-column epi tables INSIDE the page: no horizontal overflow */
+  .tablewrap{overflow:visible;}
+  table{max-width:100%;}
+  .epi{min-width:0; width:100%; table-layout:fixed; font-size:8px; line-height:1.32;}
+  .epi th,.epi td{padding:4px 4px; word-break:break-word; overflow-wrap:anywhere; hyphens:auto;}
+  .epi th{font-size:8px;}
+  /* a touch more room for the value / patient-type / source columns, less for narrow ones */
+  .epi th:nth-child(1),.epi td:nth-child(1){width:8%;}
+  .epi th:nth-child(2),.epi td:nth-child(2){width:10%;}
+  .epi th:nth-child(3),.epi td:nth-child(3){width:12%;}
+  .epi th:nth-child(4),.epi td:nth-child(4){width:8%;}
+  .epi th:nth-child(5),.epi td:nth-child(5){width:12%;}
+  .epi th:nth-child(6),.epi td:nth-child(6){width:7%;}
+  .epi th:nth-child(7),.epi td:nth-child(7){width:8%;}
+  .epi th:nth-child(8),.epi td:nth-child(8){width:12%;}
+  .epi th:nth-child(9),.epi td:nth-child(9){width:8%;}
+  .epi th:nth-child(10),.epi td:nth-child(10){width:15%;}
+  .matrix{font-size:11px; table-layout:fixed; width:100%;}
+  .matrix th,.matrix td{word-break:break-word; overflow-wrap:anywhere;}
+  .ck-table{font-size:11px; table-layout:fixed; width:100%;}
+  .ck-table th,.ck-table td{word-break:break-word; overflow-wrap:anywhere;}
+  /* rows and key blocks must not split across a page break */
+  .epi tr,.matrix tr,.ck-table tr,.idtable tr{break-inside:avoid;}
+  .conflict,.banner,.bullets li,.legend-item,.refs .reflist li{break-inside:avoid;}
+  .chart svg{max-width:100%; height:auto;}
 }
 """
 

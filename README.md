@@ -1,5 +1,7 @@
 # rare-disease-epi · 罕见病流行病学情报
 
+> **当前版本：v1.2.0**（更新日志见文末 [更新日志 / Changelog](#更新日志--changelog)）
+
 一个**可移植的** Agent Skill（可在 Claude Code / Qwen Code / Kimi Code CLI / MiniMax Mini-Agent 直接用）。
 你说一句「**查一下 X 病的患病率**」，它就把这个罕见病的流行病学数据（患病率 / 发病率 / 死亡率 / 携带频率）
 整理成报告，覆盖 **国际（Orphanet/PubMed）+ 美国 + 中国**，并优先查**国内外诊疗指南/专家共识**当口径锚点。
@@ -127,6 +129,7 @@ rare-disease-epi/
 ├── examples/
 │   ├── sma-epi-data.json         # SMA 可视化报告的输入数据（已带徽标）
 │   ├── sma-epi-report.html       # 可视化报告样例（亚型矩阵 + 10列对比表 + 时间线 + 红色清单）
+│   ├── sma-epi-report.pdf        # 同一报告的 PDF（已做整页适配，不溢出）
 │   ├── sma-epi-report.docx       # 同一报告的 Word 版
 │   └── sma-text-report-sample.md # 文字版样例报告（端到端 demo）
 └── README.md                     # 本文件
@@ -137,3 +140,29 @@ rare-disease-epi/
 Python 3.8+（`fetch_epi_data.py` 与 `build_report.py` 只用标准库）；能联网访问 eutils.ncbi.nlm.nih.gov /
 www.clinicaltrials.gov / www.orpha.net / www.orphadata.com。Word 版 `build_report_docx.py` 需 `pip install python-docx`。
 转 PDF：浏览器对 HTML "打印→存为 PDF"，或 `weasyprint`，或 `pdf` skill。
+
+---
+
+## 更新日志 / Changelog
+
+> 约定：**每次版本更新都在此记录**（最新在上）。版本号 `主.次.修`：主=不兼容改动，次=新增能力，修=修复/微调。
+
+### v1.2.0 — 2026-06-30
+- **修复 PDF 整页适配**：可视化报告打印/导出 PDF 时，10 列 epi 对比表不再溢出页面右边缘。`build_report.py` 新增 `@media print` 规则：表格 `table-layout:fixed` + 列宽分配 + 自动换行 + 缩小字号，并让长表可跨页但**单行不被截断**（`break-inside:avoid`），缩小打印内边距。SMA 样例 PDF 由 9 页压缩为 6 页且无错版。
+- **安装/开跑前"网站放行确认"**：`SKILL.md` 新增 §5.2 + 工作流 step 0——每个会话第一次查询前，先用大白话问用户"所需网站（尤其 Orphanet）放行了吗"，未放行则直接给清单与 `*` 一键做法再开查。
+- **README 增设本更新日志**，并把 PDF 样例补进文件结构。
+
+### v1.1.0 — 2026-06-30
+- **配色改为低对比"暗蓝色系"**：七档徽标与报告版式（HTML / PDF / Word + `report_template.html` 参考）从原先的高饱和"五颜六色"统一为柔和的深蓝 / 石板灰家族；🔴必核 保留为去饱和的黏土红，仍可一眼区分但不刺眼。文字口径、徽标语义、核对清单一字未改。
+
+### v1.0.0 — 2026-06-30
+- **首个完整版本**。落地核心架构：
+  - 七档来源徽标（🏛️官方 / ✅库 / 📘指南 / 🔍web / ⚠️ / 🔴 / ❓N/A）+ 强制 🔴 规则；
+  - 暂停门 G0（身份）/ G1（范围）/ G2（亚型）/ G3（中国）+ "一次跑完"降级；
+  - 两半不对称：可自动化半边（Orphanet / PubMed E-utilities 含 MeSH / ClinicalTrials.gov / GARD）写进 `fetch_epi_data.py`（纯标准库）；中国半边当副驾（检索式 + 用户粘贴 + 归一化，默认 🔴）；
+  - 指南/共识 📘 用法（病例定义与亚型分类可直接采信；epi 数字须溯原始研究）；
+  - 10 列对比 schema（年份/样本量/患者类型为前三列）+ 冲突解读（绝不取平均）；亚型矩阵（携带频率 vs 临床患病率分列）；
+  - 文字 / 可视化（HTML·PDF·Word）双输出；末尾「🔴 需人工核对清单」；
+  - 四 harness 安装指引 + 域名白名单（`GETTING_STARTED.md`）；
+  - SMA 端到端 demo（真实可核数据：Orphanet ORPHA:70/83330、Sugarman 2012、多项中国携带筛查、Verhaart 2017、GeneReviews、卫健委指南）。
+  - v2 预留接口：日本「指定難病」受給者証、韩国 KDCA 산정특례统计（日/韩文 parser，TODO stub）。

@@ -183,6 +183,22 @@ python scripts/fetch_epi_data.py "Spinal muscular atrophy" --orphacode 83330
   2. **直接用 `web_fetch` 抓 Orphanet 疾病页**（`https://www.orpha.net/en/disease/detail/<ORPHAcode>`）——该页**服务端渲染**，可直接读到 Prevalence、Epidemiology 段、validation、各亚型 ORPHAcode、指南链接。脚本 `web_and_manual.orphanet_manual` 已写明此回退。
 - 若**所有源都 error**：多半是环境没放开联网域名，**不是病不存在**——见 `GETTING_STARTED.md` 的"域名放开"。
 
+### 5.2 开跑前的"网站放行确认"（首次安装 / 每个新会话第一次查时，必做）
+
+**在本会话第一次跑脚本之前**，先用大白话问一句、确认用户已把所需网站放行（Orphanet 默认常没放行，最容易导致报告空白）。用 `AskUserQuestion`，例如：
+
+> 「开始前确认一下：这个工具要联网查 Orphanet、PubMed、ClinicalTrials.gov 这些站。你的环境**把这些网站放行了吗**？
+> （最省事的做法是在 设置→功能→网络访问 里把允许域名填一个 `*`。）」
+>
+> 选项：**① 已放行 / 用了 `*`（直接开查）** ｜ **② 不确定，给我清单和怎么设** ｜ **③ 还没弄**
+
+- 选 ① → 直接进 G0 开查。
+- 选 ②/③ → 先给出放行清单与一键做法（**别让用户自己翻文档**），然后再开查：
+  > 必放行：`eutils.ncbi.nlm.nih.gov`、`www.clinicaltrials.gov`（**带 www**）、`www.orpha.net`、`www.orphadata.com`、`rarediseases.info.nih.gov`；中国指南另加 `www.nhc.gov.cn`。
+  > 最省事：允许域名填 `*`。详见 `GETTING_STARTED.md` 第 1 步。
+- 这一问**每个会话只需问一次**；问过且确认后，本会话后续查询不必重复。
+- 兜底：即便用户说已放行，若脚本 `source_status` 显示 Orphanet 等被 403，仍按 §5.1 用 `web_fetch` 回退，并提醒用户该域名可能漏放行。
+
 ---
 
 ## 6. 对比 schema（同病同国出现多个数字时——本 skill 的核心产出）
@@ -223,6 +239,7 @@ python scripts/fetch_epi_data.py "Spinal muscular atrophy" --orphacode 83330
 > 能用脚本 ✅ 的优先 ✅；指南/共识/GeneReviews → 📘；逐篇 PubMed 研究 → 🔍web(PMID)，单中心小样本叠 ⚠️；
 > 中国侧 / mortality / 外推走 🔴（**🔴 不因来源是官方/指南而解除**）。
 
+0. **网站放行确认（首次/每会话第一次）**：跑脚本前先按 §5.2 用大白话问一句"所需网站放行了吗"，没放行就先给清单/`*` 做法再开查。
 1. **疾病身份确认（🚧 G0）**：脚本 `identity_rollup` + Orphanet 给 ORPHAcode/OMIM/ICD-10/11/GARD/别名/分类层级。多候选让用户选。输出身份卡。
 2. **找指南/共识（第 3 节，与 3–6 并行）**：GeneReviews + PubMed 指南 + Orphanet 指南链接 + 中国卫健委/学会共识定位。确定本次**共识锚点**与**病例定义/亚型分类**。G1 时告知用户找到与否。
 3. **范围与口径确认（🚧 G1）**：metric / 国家 / 是否分亚型。
